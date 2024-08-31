@@ -56,30 +56,39 @@ function executarConsultas() {
             // 5. Jogadores ordenados por assistências em ordem crescente
             console.log('Jogadores ordenados por assistências (crescente):');
             const assistancesAscQuery = `
-            SELECT nome, apelido, assistencias
-            FROM Jogador
-            ORDER BY assistencias ASC;
-        `;
+                    SELECT nome, apelido, assistencias
+                    FROM Jogador
+                    ORDER BY assistencias ASC;
+                `;
             const assistancesAscResult = yield queryRunner.query(assistancesAscQuery);
             console.table(assistancesAscResult);
             // 6. Jogadores ordenados por gols em ordem decrescente
             console.log('Jogadores ordenados por gols (decrescente):');
             const goalsDescQuery = `
-            SELECT nome, apelido, gols
-            FROM Jogador
-            ORDER BY gols DESC;
-        `;
+                    SELECT nome, apelido, gols
+                    FROM Jogador
+                    ORDER BY gols DESC;
+                `;
             const goalsDescResult = yield queryRunner.query(goalsDescQuery);
             console.table(goalsDescResult);
             // 7. Jogadores ordenados por gols em ordem crescente
             console.log('Jogadores ordenados por gols (crescente):');
             const goalsAscQuery = `
-            SELECT nome, apelido, gols
-            FROM Jogador
-            ORDER BY gols ASC;
-        `;
+                    SELECT nome, apelido, gols
+                    FROM Jogador
+                    ORDER BY gols ASC;
+                `;
             const goalsAscResult = yield queryRunner.query(goalsAscQuery);
             console.table(goalsAscResult);
+            // 8. Jogadores ordenados por posição
+            console.log('Jogadores ordenados por posição:');
+            const positionQuery = `
+                    SELECT nome, apelido, posicao
+                    FROM Jogador
+                    ORDER BY posicao;
+                `;
+            const positionResult = yield queryRunner.query(positionQuery);
+            console.table(positionResult);
         }
         finally {
             yield queryRunner.release();

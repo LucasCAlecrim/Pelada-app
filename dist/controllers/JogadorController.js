@@ -8,9 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.JogadorController = void 0;
 const JogadorService_1 = require("../services/JogadorService");
+const pdfkit_1 = __importDefault(require("pdfkit"));
 const jogadorService = new JogadorService_1.JogadorService();
 class JogadorController {
     create(req, res) {
@@ -41,6 +45,49 @@ class JogadorController {
         return __awaiter(this, void 0, void 0, function* () {
             const ranking = yield jogadorService.getRanking();
             return res.json(ranking);
+        });
+    }
+    // Métodos para gerar PDFs
+    gerarPdfJogadores(jogadores, titulo, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const doc = new pdfkit_1.default();
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader('Content-Disposition', `attachment; filename=${titulo}.pdf`);
+            doc.pipe(res);
+            doc.fontSize(20).text(titulo, { align: 'center' });
+            doc.moveDown();
+            jogadores.forEach(jogador => {
+                doc.fontSize(12).text(`Apelido: ${jogador.apelido}`);
+                doc.text(`Gols: ${jogador.gols}`);
+                doc.text(`Assistências: ${jogador.assistencias}`);
+                doc.text(`Posição: ${jogador.posicao}`);
+                doc.moveDown();
+            });
+            doc.end();
+        });
+    }
+    listarPorGolsDecrescentePDF(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const jogadores = yield jogadorService.listarPorGolsDecrescente();
+            yield this.gerarPdfJogadores(jogadores, 'Jogadores - Gols Decrescente', res);
+        });
+    }
+    listarPorGolsCrescentePDF(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const jogadores = yield jogadorService.listarPorGolsCrescente();
+            yield this.gerarPdfJogadores(jogadores, 'Jogadores - Gols Crescente', res);
+        });
+    }
+    listarPorAssistenciasDecrescentePDF(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const jogadores = yield jogadorService.listarPorAssistenciasDecrescente();
+            yield this.gerarPdfJogadores(jogadores, 'Jogadores - Assistências Decrescente', res);
+        });
+    }
+    listarPorAssistenciasCrescentePDF(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const jogadores = yield jogadorService.listarPorAssistenciasCrescente();
+            yield this.gerarPdfJogadores(jogadores, 'Jogadores - Assistências Crescente', res);
         });
     }
 }

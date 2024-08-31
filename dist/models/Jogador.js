@@ -40,6 +40,10 @@ __decorate([
     __metadata("design:type", Number)
 ], Jogador.prototype, "vitorias", void 0);
 __decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], Jogador.prototype, "posicao", void 0);
+__decorate([
     (0, typeorm_1.ManyToOne)(() => Time_1.Time, (time) => time.jogadores),
     __metadata("design:type", Object)
 ], Jogador.prototype, "time", void 0);

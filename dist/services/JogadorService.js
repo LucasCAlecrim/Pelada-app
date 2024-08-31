@@ -24,11 +24,12 @@ class JogadorService {
     findAll() {
         return __awaiter(this, void 0, void 0, function* () {
             const jogadores = yield this.jogadorRepository.find();
-            return jogadores.map(({ id, apelido, gols, assistencias }) => ({
+            return jogadores.map(({ id, apelido, gols, assistencias, posicao }) => ({
                 id,
                 apelido,
                 gols,
                 assistencias,
+                posicao,
             }));
         });
     }
@@ -50,11 +51,76 @@ class JogadorService {
                     assistencias: 'DESC',
                 },
             });
-            return jogadores.map(({ id, apelido, gols, assistencias }) => ({
+            return jogadores.map(({ id, apelido, gols, assistencias, posicao }) => ({
                 id,
                 apelido,
                 gols,
                 assistencias,
+                posicao,
+            }));
+        });
+    }
+    listarPorGolsDecrescente() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const jogadores = yield this.jogadorRepository.find({
+                order: {
+                    gols: 'DESC',
+                },
+            });
+            return jogadores.map(({ id, apelido, gols, assistencias, posicao }) => ({
+                id,
+                apelido,
+                gols,
+                assistencias,
+                posicao,
+            }));
+        });
+    }
+    listarPorAssistenciasDecrescente() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const jogadores = yield this.jogadorRepository.find({
+                order: {
+                    assistencias: 'DESC',
+                },
+            });
+            return jogadores.map(({ id, apelido, gols, assistencias, posicao }) => ({
+                id,
+                apelido,
+                gols,
+                assistencias,
+                posicao,
+            }));
+        });
+    }
+    listarPorGolsCrescente() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const jogadores = yield this.jogadorRepository.find({
+                order: {
+                    gols: 'ASC',
+                },
+            });
+            return jogadores.map(({ id, apelido, gols, assistencias, posicao }) => ({
+                id,
+                apelido,
+                gols,
+                assistencias,
+                posicao,
+            }));
+        });
+    }
+    listarPorAssistenciasCrescente() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const jogadores = yield this.jogadorRepository.find({
+                order: {
+                    assistencias: 'ASC',
+                },
+            });
+            return jogadores.map(({ id, apelido, gols, assistencias, posicao }) => ({
+                id,
+                apelido,
+                gols,
+                assistencias,
+                posicao,
             }));
         });
     }
