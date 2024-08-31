@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import express from 'express';
-import cors from 'cors';  // Importar o módulo cors
+import cors from 'cors';  
 import swaggerUi from 'swagger-ui-express';
 import { AppDataSource } from './database/DataSource';
 import jogadorRoutes from './routes/JogadorRoutes';
