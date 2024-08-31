@@ -1,19 +1,43 @@
 # Pelada App
 
-Este é um aplicativo de gerenciamento de jogadores de futebol, desenvolvido em TypeScript com Node.js, Express e TypeORM. O projeto inclui um CRUD completo para jogadores, com funcionalidade para gerar relatórios e adicionar jogadores a times.
+**Pelada App** é uma aplicação desenvolvida para gerenciar jogadores de futebol. Com funcionalidades completas de CRUD, geração de relatórios em PDF, e integração com Swagger para documentação interativa da API, o Pelada App é uma solução robusta para a gestão de equipes e jogadores. A aplicação é construída com TypeScript, Node.js, Express, e TypeORM, proporcionando uma arquitetura escalável e de fácil manutenção.
 
-# Guia de Utilização do Projeto
+## Tecnologias Utilizadas
 
-Este guia fornece instruções sobre como configurar e utilizar o projeto de aplicação de futebol, incluindo detalhes sobre as tecnologias usadas e as rotas disponíveis na API.
-
-## Tecnologias Usadas
-
-- **TypeScript**: Superconjunto do JavaScript com tipagem estática.
-- **TypeORM**: ORM para TypeScript e JavaScript que facilita a manipulação de bancos de dados relacionais.
-- **Express**: Framework para Node.js que facilita a criação de APIs e servidores.
-- **MySQL**: Sistema de gerenciamento de banco de dados relacional usado para armazenar dados.
-- **Swagger**: Ferramenta para gerar documentação interativa para APIs RESTful.
+- **TypeScript**: Superconjunto do JavaScript que adiciona tipagem estática ao código.
+- **Node.js**: Ambiente de execução para JavaScript, permitindo o desenvolvimento de aplicações server-side.
+- **Express**: Framework minimalista para Node.js, utilizado para criar a API.
+- **TypeORM**: ORM para TypeScript e JavaScript, facilitando a manipulação de bancos de dados relacionais.
+- **MySQL**: Sistema de gerenciamento de banco de dados relacional utilizado para armazenamento de dados.
+- **Swagger**: Ferramenta para geração de documentação interativa de APIs RESTful.
 - **swagger-ui-express**: Middleware para integrar o Swagger com o Express.
+- **PDFKit**: Biblioteca para geração de documentos PDF diretamente do código.
+- **CORS**: Middleware para habilitar o compartilhamento de recursos entre diferentes origens, essencial para APIs RESTful.
+
+## Funcionalidades Principais
+
+### Jogadores
+
+- **Adicionar Jogador**: `POST /jogadores`
+- **Listar Jogadores**: `GET /jogadores`
+- **Obter Jogador por ID**: `GET /jogadores/{id}`
+- **Deletar Jogador**: `DELETE /jogadores/{id}`
+- **Ranking de Jogadores**: `GET /jogadores/ranking`
+- **Listar Jogadores por Gols (PDF)**: `GET /jogadores/gols/desc/pdf`
+- **Listar Jogadores por Assistências (PDF)**: `GET /jogadores/assistencias/desc/pdf`
+
+### Times
+
+- **Adicionar Time**: `POST /times`
+- **Listar Times**: `GET /times`
+
+## Configuração e Execução
+
+### Pré-requisitos
+
+- **Node.js** e **npm** instalados.
+- **MySQL** ativo e configurado.
+
 
 # Execução do programa
 
@@ -56,136 +80,199 @@ Este guia fornece instruções sobre como configurar e utilizar o projeto de apl
 
 ## Rotas da API
 
-### 1. Rotas de Jogadores
+#### Adicionar um Novo Jogador
 
-- **Criar Jogador**
-  - **Método**: `POST`
-  - **Endpoint**: `/jogadores`
-  - **Descrição**: Cria um novo jogador.
-  - **Exemplo de Corpo da Requisição**:
+- **Método:** `POST`
+- **Endpoint:** `/jogadores`
+- **Descrição:** Adiciona um novo jogador à base de dados.
+- **Parâmetros:**
+  - **Corpo da Requisição (JSON):**
     ```json
     {
-      "nome": "Nome do Jogador",
-      "apelido": "Apelido",
-      "gols": 10,
-      "assistencias": 5,
-      "vitórias": 7
-    }
-    ```
-
-- **Listar Todos os Jogadores**
-  - **Método**: `GET`
-  - **Endpoint**: `/jogadores`
-  - **Descrição**: Retorna uma lista de todos os jogadores.
-
-- **Buscar Jogador por ID**
-  - **Método**: `GET`
-  - **Endpoint**: `/jogadores/:id`
-  - **Descrição**: Retorna um jogador específico pelo ID.
-
-- **Deletar Jogador por ID**
-  - **Método**: `DELETE`
-  - **Endpoint**: `/jogadores/:id`
-  - **Descrição**: Deleta um jogador específico pelo ID.
-
-- **Obter Ranking dos Jogadores**
-  - **Método**: `GET`
-  - **Endpoint**: `/jogadores/ranking`
-  - **Descrição**: Retorna uma lista de jogadores ordenada por número de gols e, em caso de empate, por assistências.
-
-### 2. Rotas de Times
-
-- **Criar Time**
-  - **Método**: `POST`
-  - **Endpoint**: `/times`
-  - **Descrição**: Cria um novo time.
-  - **Exemplo de Corpo da Requisição**:
-    ```json
-    {
-      "nome": "Nome do Time"
-    }
-    ```
-
-- **Listar Todos os Times**
-  - **Método**: `GET`
-  - **Endpoint**: `/times`
-  - **Descrição**: Retorna uma lista de todos os times.
-
-
-
-### Rotas no Swagger
-
-#### Jogadores
-
-- **POST /jogadores**
-  - Cria um novo jogador. Requer um corpo da requisição com os campos `nome`, `apelido`, `gols`, `assistencias`, e `vitórias`.
-
-- **GET /jogadores**
-  - Lista todos os jogadores.
-
-- **GET /jogadores/:id**
-  - Retorna as informações de um jogador específico pelo ID.
-
-- **DELETE /jogadores/:id**
-  - Remove um jogador específico pelo ID.
-
-- **GET /jogadores/ranking**
-  - Retorna a classificação dos jogadores baseada em gols e assistências.
-
-#### Times
-
-- **POST /times**
-  - Cria um novo time. Requer um corpo da requisição com o campo `nome`.
-
-- **GET /times**
-  - Lista todos os times.
-
-## Exemplos de Respostas
-
-### Jogadores
-
-- **GET /jogadores**
-  - **Resposta**:
-    ```json
-    [
-      {
+      "nome": "Lionel Messi",
+      "apelido": "Messi",
+      "gols": 25,
+      "assistencias": 10,
+      "vitorias": 5,
+      "time": {
         "id": 1,
-        "nome": "Nome do Jogador",
-        "apelido": "Apelido",
-        "gols": 10,
-        "assistencias": 5,
-        "vitórias": 7
+        "nome": "Barcelona"
       }
-    ]
+    }
     ```
-
-- **GET /jogadores/:id**
-  - **Resposta**:
+- **Resposta:**
+  - **Código 200:** Jogador adicionado com sucesso.
+  - **Corpo da Resposta (JSON):**
     ```json
     {
       "id": 1,
-      "nome": "Nome do Jogador",
-      "apelido": "Apelido",
-      "gols": 10,
-      "assistencias": 5,
-      "vitórias": 7
+      "nome": "Lionel Messi",
+      "apelido": "Messi",
+      "gols": 25,
+      "assistencias": 10,
+      "vitorias": 5,
+      "time": {
+        "id": 1,
+        "nome": "Barcelona"
+      }
     }
     ```
 
-### Times
+#### Listar Todos os Jogadores
 
-- **GET /times**
-  - **Resposta**:
+- **Método:** `GET`
+- **Endpoint:** `/jogadores`
+- **Descrição:** Lista todos os jogadores.
+- **Resposta:**
+  - **Código 200:** Lista de jogadores.
+  - **Corpo da Resposta (JSON):**
     ```json
     [
       {
         "id": 1,
-        "nome": "Nome do Time"
-      }
+        "apelido": "Messi",
+        "gols": 25,
+        "assistencias": 10
+      },
+      ...
     ]
     ```
 
+#### Obter um Jogador Específico
 
+- **Método:** `GET`
+- **Endpoint:** `/jogadores/{id}`
+- **Descrição:** Obtém os detalhes de um jogador específico.
+- **Parâmetros:**
+  - **Path:**
+    - `id` (integer): ID do jogador.
+- **Resposta:**
+  - **Código 200:** Detalhes do jogador.
+  - **Código 404:** Jogador não encontrado.
+  - **Corpo da Resposta (JSON):**
+    ```json
+    {
+      "id": 1,
+      "nome": "Lionel Messi",
+      "apelido": "Messi",
+      "gols": 25,
+      "assistencias": 10,
+      "vitorias": 5,
+      "time": {
+        "id": 1,
+        "nome": "Barcelona"
+      }
+    }
+    ```
+
+#### Deletar um Jogador
+
+- **Método:** `DELETE`
+- **Endpoint:** `/jogadores/{id}`
+- **Descrição:** Deleta um jogador específico.
+- **Parâmetros:**
+  - **Path:**
+    - `id` (integer): ID do jogador.
+- **Resposta:**
+  - **Código 204:** Jogador deletado com sucesso.
+
+#### Obter Ranking dos Jogadores
+
+- **Método:** `GET`
+- **Endpoint:** `/jogadores/ranking`
+- **Descrição:** Obtém o ranking dos jogadores com base em suas estatísticas.
+- **Resposta:**
+  - **Código 200:** Ranking dos jogadores.
+  - **Corpo da Resposta (JSON):**
+    ```json
+    [
+      {
+        "id": 1,
+        "apelido": "Messi",
+        "gols": 25,
+        "assistencias": 10
+      },
+      ...
+    ]
+    ```
+
+#### Listar Jogadores por Gols Decrescentes em PDF
+
+- **Método:** `GET`
+- **Endpoint:** `/jogadores/gols/desc/pdf`
+- **Descrição:** Gera um PDF com a lista de jogadores ordenada por gols de forma decrescente.
+- **Resposta:**
+  - **Código 200:** PDF gerado com sucesso.
+  - **Corpo da Resposta:** Arquivo PDF.
+
+#### Listar Jogadores por Assistências Decrescentes em PDF
+
+- **Método:** `GET`
+- **Endpoint:** `/jogadores/assistencias/desc/pdf`
+- **Descrição:** Gera um PDF com a lista de jogadores ordenada por assistências de forma decrescente.
+- **Resposta:**
+  - **Código 200:** PDF gerado com sucesso.
+  - **Corpo da Resposta:** Arquivo PDF.
+
+### Times
+
+#### Adicionar um Novo Time
+
+- **Método:** `POST`
+- **Endpoint:** `/times`
+- **Descrição:** Adiciona um novo time à base de dados.
+- **Parâmetros:**
+  - **Corpo da Requisição (JSON):**
+    ```json
+    {
+      "nome": "Barcelona",
+      "jogadores": [
+        {
+          "id": 1,
+          "nome": "Lionel Messi"
+        }
+      ]
+    }
+    ```
+- **Resposta:**
+  - **Código 200:** Time adicionado com sucesso.
+  - **Corpo da Resposta (JSON):**
+    ```json
+    {
+      "id": 1,
+      "nome": "Barcelona",
+      "jogadores": [
+        {
+          "id": 1,
+          "nome": "Lionel Messi"
+        }
+      ]
+    }
+    ```
+
+#### Listar Todos os Times
+
+- **Método:** `GET`
+- **Endpoint:** `/times`
+- **Descrição:** Lista todos os times.
+- **Resposta:**
+  - **Código 200:** Lista de times.
+  - **Corpo da Resposta (JSON):**
+    ```json
+    [
+      {
+        "id": 1,
+        "nome": "Barcelona",
+        "jogadores": [
+          {
+            "id": 1,
+            "nome": "Lionel Messi"
+          }
+        ]
+      },
+      ...
+    ]
+    ```
 
 
 
