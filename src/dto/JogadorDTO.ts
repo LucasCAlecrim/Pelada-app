@@ -3,4 +3,5 @@ export interface JogadorDTO {
     apelido: string;
     gols: number;
     assistencias: number;
+    posicao: string;
 }

@@ -21,6 +21,9 @@ export class Jogador {
     @Column()
     vitorias!: number;
 
+    @Column()
+    posicao!: string;
+
     @ManyToOne(() => Time, (time) => time.jogadores)
-    time: Time | undefined; 
+    time: Time | undefined;
 }
