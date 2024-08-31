@@ -17,24 +17,18 @@ body {
   }
   
   /* Cabeçalho do Swagger UI */
-  .swagger-ui .topbar {
+  .topbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background: #333;
-    color: #ffffff;
     padding: 15px;
     border-radius: 5px;
     margin-bottom: 20px;
   }
   
-  /* Espaçamento entre seções do Swagger */
-  .swagger-ui .info,
-  .swagger-ui .opblock,
-  .swagger-ui .endpoint-tag {
-    margin-bottom: 30px;
-  }
-  
-  /* Estilo para tags e blocos de operação */
-  .swagger-ui .tag {
-    margin-bottom: 25px;
+  .logo {
+    width: 150px;
   }
   
   /* Estilo para blocos de operação */
@@ -53,26 +47,9 @@ body {
     border-radius: 5px;
     font-size: 16px;
     font-weight: bold;
-  }
-  
-  /* Estilo para detalhes das operações */
-  .swagger-ui .opblock-body {
-    padding: 15px;
-    border-top: 1px solid #e0e0e0;
-  }
-  
-  /* Estilo para as respostas da operação */
-  .swagger-ui .responses-inner {
-    margin-top: 20px;
-  }
-  
-  /* Estilo para o botão de pesquisa */
-  .swagger-ui .topbar .topbar-wrapper .topbar-toggle {
-    background: #007bff;
-    color: #ffffff;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   
   /* Estilo para os botões */
@@ -84,11 +61,9 @@ body {
     padding: 8px 12px;
     font-size: 14px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
   }
   
-  /* Estilo para tags dos endpoints */
-  .swagger-ui .tag {
-    color: #007bff;
-    font-weight: bold;
+  .swagger-ui .btn:hover {
+    background-color: #0056b3;
   }
-  
