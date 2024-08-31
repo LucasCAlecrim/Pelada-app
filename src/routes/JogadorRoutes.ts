@@ -12,8 +12,8 @@ router.get('/jogadores/ranking', jogadorController.getRanking);
 
 // Novas rotas para listagem em PDF
 router.get('/jogadores/gols/desc/pdf', jogadorController.listarPorGolsDecrescentePDF);
-router.get('/jogadores/gols/asc/pdf', jogadorController.listarPorGolsCrescentePDF);
+
 router.get('/jogadores/assistencias/desc/pdf', jogadorController.listarPorAssistenciasDecrescentePDF);
-router.get('/jogadores/assistencias/asc/pdf', jogadorController.listarPorAssistenciasCrescentePDF);
+
 
 export default router;

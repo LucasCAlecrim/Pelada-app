@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import express from 'express';
+import cors from 'cors';  // Importar o módulo cors
 import swaggerUi from 'swagger-ui-express';
 import { AppDataSource } from './database/DataSource';
 import jogadorRoutes from './routes/JogadorRoutes';
@@ -7,6 +8,14 @@ import timeRoutes from './routes/TimeRoutes';
 import swaggerDocument from '../swagger/swagger.json';  
 
 const app = express();
+
+// Configuração do CORS
+app.use(cors({
+  origin: '*', // Permite todas as origens. Ajuste conforme necessário.
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 
 // Rotas

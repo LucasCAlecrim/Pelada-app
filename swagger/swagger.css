@@ -1,0 +1,94 @@
+/* Define a base para o Swagger UI */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #fcb320;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Container principal do Swagger UI */
+  #swagger-ui {
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 1200px;
+    background: #ffffff;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+  }
+  
+  /* Cabeçalho do Swagger UI */
+  .swagger-ui .topbar {
+    background: #333;
+    color: #ffffff;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+  }
+  
+  /* Espaçamento entre seções do Swagger */
+  .swagger-ui .info,
+  .swagger-ui .opblock,
+  .swagger-ui .endpoint-tag {
+    margin-bottom: 30px;
+  }
+  
+  /* Estilo para tags e blocos de operação */
+  .swagger-ui .tag {
+    margin-bottom: 25px;
+  }
+  
+  /* Estilo para blocos de operação */
+  .swagger-ui .opblock {
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    background: #fafafa;
+  }
+  
+  /* Estilo para cabeçalhos das operações */
+  .swagger-ui .opblock-summary {
+    background: #f4f4f4;
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  /* Estilo para detalhes das operações */
+  .swagger-ui .opblock-body {
+    padding: 15px;
+    border-top: 1px solid #e0e0e0;
+  }
+  
+  /* Estilo para as respostas da operação */
+  .swagger-ui .responses-inner {
+    margin-top: 20px;
+  }
+  
+  /* Estilo para o botão de pesquisa */
+  .swagger-ui .topbar .topbar-wrapper .topbar-toggle {
+    background: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+  }
+  
+  /* Estilo para os botões */
+  .swagger-ui .btn {
+    background-color: #007bff;
+    color: #ffffff;
+    border-radius: 5px;
+    border: none;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  /* Estilo para tags dos endpoints */
+  .swagger-ui .tag {
+    color: #007bff;
+    font-weight: bold;
+  }
+  

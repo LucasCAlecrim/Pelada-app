@@ -31,7 +31,7 @@ export class JogadorController {
     }
 
     // Métodos para gerar PDFs
-    private async gerarPdfJogadores(jogadores: any[], titulo: string, res: Response) {
+    private gerarPdfJogadores = async (jogadores: any[], titulo: string, res: Response) => {
         const doc = new PDFDocument();
         res.setHeader('Content-Type', 'application/pdf');
         res.setHeader('Content-Disposition', `attachment; filename=${titulo}.pdf`);
@@ -51,23 +51,17 @@ export class JogadorController {
         doc.end();
     }
 
-    async listarPorGolsDecrescentePDF(req: Request, res: Response): Promise<void> {
+    listarPorGolsDecrescentePDF = async (req: Request, res: Response): Promise<void> => {
         const jogadores = await jogadorService.listarPorGolsDecrescente();
         await this.gerarPdfJogadores(jogadores, 'Jogadores - Gols Decrescente', res);
     }
 
-    async listarPorGolsCrescentePDF(req: Request, res: Response): Promise<void> {
-        const jogadores = await jogadorService.listarPorGolsCrescente();
-        await this.gerarPdfJogadores(jogadores, 'Jogadores - Gols Crescente', res);
-    }
 
-    async listarPorAssistenciasDecrescentePDF(req: Request, res: Response): Promise<void> {
+
+    listarPorAssistenciasDecrescentePDF = async (req: Request, res: Response): Promise<void> => {
         const jogadores = await jogadorService.listarPorAssistenciasDecrescente();
         await this.gerarPdfJogadores(jogadores, 'Jogadores - Assistências Decrescente', res);
     }
 
-    async listarPorAssistenciasCrescentePDF(req: Request, res: Response): Promise<void> {
-        const jogadores = await jogadorService.listarPorAssistenciasCrescente();
-        await this.gerarPdfJogadores(jogadores, 'Jogadores - Assistências Crescente', res);
-    }
+
 }
