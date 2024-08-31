@@ -25,7 +25,10 @@
         ],
         "responses": {
           "200": {
-            "description": "Jogador adicionado com sucesso"
+            "description": "Jogador adicionado com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Jogador"
+            }
           }
         }
       },
@@ -116,7 +119,10 @@
         ],
         "responses": {
           "200": {
-            "description": "Time adicionado com sucesso"
+            "description": "Time adicionado com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Time"
+            }
           }
         }
       },
@@ -134,29 +140,65 @@
           }
         }
       }
+    },
+    "/jogadores/gols/desc/pdf": {
+      "get": {
+        "summary": "Listar jogadores por gols de forma decrescente em PDF",
+        "responses": {
+          "200": {
+            "description": "Lista de jogadores por gols decrescentes em PDF gerada com sucesso",
+            "schema": {
+              "type": "string",
+              "format": "binary"
+            }
+          }
+        }
+      }
+    },
+    
+    "/jogadores/assistencias/desc/pdf": {
+      "get": {
+        "summary": "Listar jogadores por assistências de forma decrescente em PDF",
+        "responses": {
+          "200": {
+            "description": "Lista de jogadores por assistências decrescentes em PDF gerada com sucesso",
+            "schema": {
+              "type": "string",
+              "format": "binary"
+            }
+          }
+        }
+      }
     }
+    
   },
   "definitions": {
     "Jogador": {
       "type": "object",
       "properties": {
         "id": {
-          "type": "integer"
+          "type": "integer",
+          "example": 1
         },
         "nome": {
-          "type": "string"
+          "type": "string",
+          "example": "Lionel Messi"
         },
         "apelido": {
-          "type": "string"
+          "type": "string",
+          "example": "Messi"
         },
         "gols": {
-          "type": "integer"
+          "type": "integer",
+          "example": 25
         },
         "assistencias": {
-          "type": "integer"
+          "type": "integer",
+          "example": 10
         },
         "vitorias": {
-          "type": "integer"
+          "type": "integer",
+          "example": 5
         },
         "time": {
           "$ref": "#/definitions/Time"
@@ -167,16 +209,20 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "integer"
+          "type": "integer",
+          "example": 1
         },
         "apelido": {
-          "type": "string"
+          "type": "string",
+          "example": "Messi"
         },
         "gols": {
-          "type": "integer"
+          "type": "integer",
+          "example": 25
         },
         "assistencias": {
-          "type": "integer"
+          "type": "integer",
+          "example": 10
         }
       }
     },
@@ -184,10 +230,12 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "integer"
+          "type": "integer",
+          "example": 1
         },
         "nome": {
-          "type": "string"
+          "type": "string",
+          "example": "Barcelona"
         },
         "jogadores": {
           "type": "array",
