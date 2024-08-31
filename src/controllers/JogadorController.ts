@@ -28,4 +28,24 @@ export class JogadorController {
         const ranking = await jogadorService.getRanking();
         return res.json(ranking);
     }
+
+    async listarPorGolsDecrescente(req: Request, res: Response): Promise<Response> {
+        const jogadores = await jogadorService.listarPorGolsDecrescente();
+        return res.json(jogadores);
+    }
+
+    async listarPorAssistenciasDecrescente(req: Request, res: Response): Promise<Response> {
+        const jogadores = await jogadorService.listarPorAssistenciasDecrescente();
+        return res.json(jogadores);
+    }
+
+    async listarPorGolsCrescente(req: Request, res: Response): Promise<Response> {
+        const jogadores = await jogadorService.listarPorGolsCrescente();
+        return res.json(jogadores);
+    }
+
+    async listarPorAssistenciasCrescente(req: Request, res: Response): Promise<Response> {
+        const jogadores = await jogadorService.listarPorAssistenciasCrescente();
+        return res.json(jogadores);
+    }
 }
