@@ -11,11 +11,12 @@ export class JogadorService {
 
     async findAll(): Promise<JogadorDTO[]> {
         const jogadores = await this.jogadorRepository.find();
-        return jogadores.map(({ id, apelido, gols, assistencias }) => ({
+        return jogadores.map(({ id, apelido, gols, assistencias, posicao }) => ({
             id,
             apelido,
             gols,
             assistencias,
+            posicao,
         }));
     }
 
@@ -34,11 +35,12 @@ export class JogadorService {
                 assistencias: 'DESC',
             },
         });
-        return jogadores.map(({ id, apelido, gols, assistencias }) => ({
+        return jogadores.map(({ id, apelido, gols, assistencias, posicao }) => ({
             id,
             apelido,
             gols,
             assistencias,
+            posicao,
         }));
     }
 }
