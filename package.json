@@ -8,6 +8,7 @@
     "build": "tsc",
     "start:prod": "node dist/index.js",
     "create-db": "ts-node src/utils/CreateDatabase.ts",
+    "test-data": "ts-node src/teste/Teste.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
