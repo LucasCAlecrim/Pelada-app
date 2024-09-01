@@ -25,5 +25,15 @@ class TimeController {
             return res.json(times);
         });
     }
+    update(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            const updatedTime = yield timeService.update(parseInt(id), req.body);
+            if (!updatedTime) {
+                return res.status(404).json({ message: 'Time não encontrado' });
+            }
+            return res.json(updatedTime);
+        });
+    }
 }
 exports.TimeController = TimeController;

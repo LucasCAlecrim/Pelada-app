@@ -62,6 +62,17 @@ class JogadorController {
             return jogador ? res.json(jogador) : res.status(404).json({ message: 'Jogador não encontrado' });
         });
     }
+    update(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            const dadosAtualizados = req.body;
+            const jogadorAtualizado = yield jogadorService.update(Number(id), dadosAtualizados);
+            if (!jogadorAtualizado) {
+                return res.status(404).json({ message: 'Jogador não encontrado' });
+            }
+            return res.json(jogadorAtualizado);
+        });
+    }
     delete(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             yield jogadorService.delete(Number(req.params.id));

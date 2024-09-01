@@ -26,5 +26,15 @@ class TimeService {
             return yield this.timeRepository.find({ relations: ['jogadores'] });
         });
     }
+    update(id, updatedTime) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const time = yield this.timeRepository.findOneBy({ id });
+            if (!time) {
+                return null;
+            }
+            this.timeRepository.merge(time, updatedTime);
+            return yield this.timeRepository.save(time);
+        });
+    }
 }
 exports.TimeService = TimeService;

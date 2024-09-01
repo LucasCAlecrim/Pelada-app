@@ -33,6 +33,16 @@ class JogadorService {
             }));
         });
     }
+    update(id, dadosAtualizados) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const jogador = yield this.jogadorRepository.findOneBy({ id });
+            if (!jogador) {
+                return null;
+            }
+            Object.assign(jogador, dadosAtualizados);
+            return yield this.jogadorRepository.save(jogador);
+        });
+    }
     findOne(id) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.jogadorRepository.findOneBy({ id });
