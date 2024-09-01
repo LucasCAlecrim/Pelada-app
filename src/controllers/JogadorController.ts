@@ -25,11 +25,6 @@ export class JogadorController {
         return res.status(204).send();
     }
 
-    async getRanking(req: Request, res: Response): Promise<Response> {
-        const ranking = await jogadorService.getRanking();
-        return res.json(ranking);
-    }
-
     // Métodos para gerar PDFs
     private gerarPdfJogadores = async (jogadores: any[], titulo: string, res: Response) => {
         const doc = new PDFDocument();

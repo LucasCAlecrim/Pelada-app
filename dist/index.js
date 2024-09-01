@@ -5,12 +5,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const DataSource_1 = require("./database/DataSource");
 const JogadorRoutes_1 = __importDefault(require("./routes/JogadorRoutes"));
 const TimeRoutes_1 = __importDefault(require("./routes/TimeRoutes"));
 const swagger_json_1 = __importDefault(require("../swagger/swagger.json"));
 const app = (0, express_1.default)();
+// Configuração do CORS
+app.use((0, cors_1.default)({
+    origin: '*', // Permite todas as origens. Ajuste conforme necessário.
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express_1.default.json());
 // Rotas
 app.use('/api', JogadorRoutes_1.default);

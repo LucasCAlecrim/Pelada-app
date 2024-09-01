@@ -43,23 +43,6 @@ class JogadorService {
             yield this.jogadorRepository.delete(id);
         });
     }
-    getRanking() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const jogadores = yield this.jogadorRepository.find({
-                order: {
-                    gols: 'DESC',
-                    assistencias: 'DESC',
-                },
-            });
-            return jogadores.map(({ id, apelido, gols, assistencias, posicao }) => ({
-                id,
-                apelido,
-                gols,
-                assistencias,
-                posicao,
-            }));
-        });
-    }
     listarPorGolsDecrescente() {
         return __awaiter(this, void 0, void 0, function* () {
             const jogadores = yield this.jogadorRepository.find({

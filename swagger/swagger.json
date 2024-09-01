@@ -7,12 +7,16 @@
   },
   "host": "localhost:3000",
   "basePath": "/api",
-  "schemes": ["http"],
+  "schemes": [
+    "http"
+  ],
   "paths": {
     "/jogadores": {
       "post": {
         "summary": "Adicionar um novo jogador",
-        "consumes": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
         "parameters": [
           {
             "in": "body",
@@ -87,26 +91,12 @@
         }
       }
     },
-    "/jogadores/ranking": {
-      "get": {
-        "summary": "Obter ranking dos jogadores",
-        "responses": {
-          "200": {
-            "description": "Ranking dos jogadores",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/JogadorDTO"
-              }
-            }
-          }
-        }
-      }
-    },
     "/times": {
       "post": {
         "summary": "Adicionar um novo time",
-        "consumes": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
         "parameters": [
           {
             "in": "body",
@@ -155,7 +145,6 @@
         }
       }
     },
-    
     "/jogadores/assistencias/desc/pdf": {
       "get": {
         "summary": "Listar jogadores por assistências de forma decrescente em PDF",
@@ -170,7 +159,6 @@
         }
       }
     }
-    
   },
   "definitions": {
     "Jogador": {
