@@ -21,8 +21,11 @@
 - **Adicionar Jogador**: `POST /jogadores`
 - **Listar Jogadores**: `GET /jogadores`
 - **Obter Jogador por ID**: `GET /jogadores/{id}`
+- **Atualizar Jogador**: `PUT /jogadores/{id}`
 - **Deletar Jogador**: `DELETE /jogadores/{id}`
-- **Ranking de Jogadores**: `GET /jogadores/ranking`
+
+### Consultas PDF
+
 - **Listar Jogadores por Gols (PDF)**: `GET /jogadores/gols/desc/pdf`
 - **Listar Jogadores por Assistências (PDF)**: `GET /jogadores/assistencias/desc/pdf`
 
@@ -30,353 +33,222 @@
 
 - **Adicionar Time**: `POST /times`
 - **Listar Times**: `GET /times`
+- **Atualizar Jogador**: `PUT /times/{id}`
 
-## Configuração e Execução
-
-### Pré-requisitos
+## Pré-requisitos
 
 - **Node.js** e **npm** instalados.
 - **MySQL** ativo e configurado.
 
+**Configuração correta do banco**
+- no meu caso optei por mysql no workbanch
 
-# Execução do programa
+```typescript
+import { DataSource } from 'typeorm';
+import { Jogador } from '../models/Jogador';
+import { Time } from '../models/Time';
 
-## Exemplo a ser descrito 
+export const AppDataSource = new DataSource({
+    type: 'mysql',
+    host: 'localhost',
+    port: 3306,
+    username: 'root', // usuario
+    password: 'root', // senha do banco
+    database: 'pelada-app', // tabela a ser criada
+    entities: [Jogador, Time],
+    synchronize: true,  
+});
+```
+**Script para a criação do banco automaticamente**
+```typescript
+import mysql from 'mysql2/promise';
+import { AppDataSource } from '../database/DataSource';
+
+async function createDatabaseIfNotExists() {
+  const connection = await mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'root',
+  });
+
+  const databaseName = process.env.DB_NAME || 'pelada-app';
+
+  try {
+    const [rows] = await connection.query('SHOW DATABASES LIKE ?', [databaseName]) as [mysql.RowDataPacket[], mysql.FieldPacket[]];
+    
+    if (rows.length === 0) {
+      await connection.query('CREATE DATABASE ??', [databaseName]);
+      console.log(`Database '${databaseName}' criada com sucesso.`);
+    } else {
+      console.log(`Database '${databaseName}' ja existe.`);
+    }
+  } catch (error) {
+    console.error('Erro criando a database:', error);
+} finally {
+    await connection.end();
+  }
+}
+
+async function initializeDataSource() {
+  await AppDataSource.initialize();
+  console.log('DataSource initialized successfully.');
+}
+
+async function setup() {
+  await createDatabaseIfNotExists();
+  await initializeDataSource();
+}
+setup().catch(error => console.error('Setup failed:', error));
+```
+- O script ele vai ser executado da seguite maneira
+
+**Compile o projeto TypeScript**:
+
+```bash
+    tsc 
+```
+- feito isso (So para ter certeza que vai copilar todo o ts) pois vamos fazer uns "testes"
+- Você vai criar o banco automaticamente com esse comando a seguir
+
+- Exemplo a ser descrito:
+
 <img src="./img/arquivo.png" alt="Criando o banco" width="300" height="150"/>
 
-- Após criar, aperta Ctrl + C e digite "s"
-
-- Depois siga para o start para testar o Swagger
-
-<img src="./img/start.png" alt="Startando o swagger" width="550" height="150"/>
-
-
-
-
-
-### Caso queira testar o banco da uma olhada la embaixo em: Teste para alimentar o banco (TESTE)
-
-0. **Compile o projeto TypeScript**:
-```bash
-    tsc
-```
-1. **Criando o Banco**
-```bash
+```bash    
     npm run create-db 
 ```
-2. **Execute o start para utilizar o swagger**:
-```bash
-    npm start
+- Após criar, aperta Ctrl + C e digite "s"
+- Feito isso vamos a fase de alimentação do banco e buscas com teste
+- Basicamente, você depois de criar o banco voce vai inserir as informações das tabelas com o script TesteAddJogadores.ts
+- lembrando que vamos puxar esse script do dist, por isso usamos o "tsc"
+
+- A seguir como utilizar o teste e alimentar o Banco 
+
+```bash 
+node .\dist\teste\TesteAddJogadores.js
 ```
-# Para utilizar o servidor e utilizar o Swagger
-## Swagger
+ - para verificar se deu certo vá no banco e coloque a seguinte query 
 
-- **Para acessar a documentação interativa da API, abra o navegador e vá para a seguinte URL**: http://localhost:3000/api-docs
+ ```sql
+ select * from jogador
+ ```
+- se for alimentada como na imagem a seguir deu certo!
 
-### Exemplo a ser descrito
+<img src="./img/banco.png" alt="Banco Criado" width="600" height="350"/>
+
+### **Existe uma opção de teste após essa**
+
+- essa opção inclui em gerar Querys (Buscas) automaticas da mesma maneira que alimentamos o banco, podendo ser usada como base para outras buscas
+```bash 
+node .\dist\teste\TesteConsultas.js
+```
+---------------------------------------------------------------------------
+# SWAGGER E SEUS ENDPOINTS 
+
+## Iniciando o Servidor para o Swagger
+
+1. **Clone o repositório**:
+    ```bash
+    git clone https://github.com/LucasCAlecrim/Pelada-app-final.git
+    ```
+
+2. **Instale as dependências**:
+    ```bash
+    npm install
+    ```
+
+3. **Compile o projeto**:
+    ```bash
+    npm run build
+    ```
+
+4. **Inicie o servidor**:
+    ```bash
+    npm start
+    ```
+
+5. **Acesse a API**:
+    - Base URL: `http://localhost:3000/api`
+    - Documentação Swagger disponível em: `http://localhost:3000/api-docs`
+
+## Funcionalidades e iniciando todo o processo de CRUD
 <img src="./img/swagger.png" alt="Swagger exemplo" width="900" height="650"/>
 
-- OBS: com o model embaixo da requisição de endpoit da para ter uma idea melhor no output e input
+A API está organizada em três principais grupos de operações:
 
-## Rotas da API
+1. **Jogadores**: Operações relacionadas ao gerenciamento de jogadores.
+2. **Consultas PDF**: Operações para gerar relatórios em PDF com base em estatísticas dos jogadores.
+3. **Times**: Operações relacionadas ao gerenciamento de times.
 
-#### Adicionar um Novo Jogador
+#### `POST /jogadores`
 
-- **Método:** `POST`
-- **Endpoint:** `/jogadores`
-- **Descrição:** Adiciona um novo jogador à base de dados.
-- **Parâmetros:**
-  - **Corpo da Requisição (JSON):**
-    ```json
-    {
-      "nome": "Lionel Messi",
-      "apelido": "Messi",
-      "gols": 25,
-      "assistencias": 10,
-      "vitorias": 5,
-      "time": {
-        "id": 1,
-        "nome": "Barcelona"
-      }
-    }
-    ```
-- **Resposta:**
-  - **Código 200:** Jogador adicionado com sucesso.
-  - **Corpo da Resposta (JSON):**
-    ```json
-    {
-      "id": 1,
-      "nome": "Lionel Messi",
-      "apelido": "Messi",
-      "gols": 25,
-      "assistencias": 10,
-      "vitorias": 5,
-      "time": {
-        "id": 1,
-        "nome": "Barcelona"
-      }
-    }
-    ```
+- **Descrição**: Adiciona um novo jogador.
+- **Corpo da Requisição**: JSON contendo os dados do jogador.
+- **Resposta**: Retorna o jogador criado.
 
-#### Listar Todos os Jogadores
+#### `GET /jogadores`
 
-- **Método:** `GET`
-- **Endpoint:** `/jogadores`
-- **Descrição:** Lista todos os jogadores.
-- **Resposta:**
-  - **Código 200:** Lista de jogadores.
-  - **Corpo da Resposta (JSON):**
-    ```json
-    [
-      {
-        "id": 1,
-        "apelido": "Messi",
-        "gols": 25,
-        "assistencias": 10
-      },
-      ...
-    ]
-    ```
+- **Descrição**: Lista todos os jogadores cadastrados.
+- **Resposta**: Retorna um array de jogadores.
 
-#### Obter um Jogador Específico
+#### `GET /jogadores/{id}`
 
-- **Método:** `GET`
-- **Endpoint:** `/jogadores/{id}`
-- **Descrição:** Obtém os detalhes de um jogador específico.
-- **Parâmetros:**
-  - **Path:**
-    - `id` (integer): ID do jogador.
-- **Resposta:**
-  - **Código 200:** Detalhes do jogador.
-  - **Código 404:** Jogador não encontrado.
-  - **Corpo da Resposta (JSON):**
-    ```json
-    {
-      "id": 1,
-      "nome": "Lionel Messi",
-      "apelido": "Messi",
-      "gols": 25,
-      "assistencias": 10,
-      "vitorias": 5,
-      "time": {
-        "id": 1,
-        "nome": "Barcelona"
-      }
-    }
-    ```
+- **Descrição**: Retorna os detalhes de um jogador específico com base no ID.
+- **Parâmetros**: 
+  - `id` (path): ID do jogador.
+- **Resposta**: Retorna os detalhes do jogador ou uma mensagem de erro caso não seja encontrado.
 
-#### Deletar um Jogador
+#### `PUT /jogadores/{id}`
 
-- **Método:** `DELETE`
-- **Endpoint:** `/jogadores/{id}`
-- **Descrição:** Deleta um jogador específico.
-- **Parâmetros:**
-  - **Path:**
-    - `id` (integer): ID do jogador.
-- **Resposta:**
-  - **Código 204:** Jogador deletado com sucesso.
+- **Descrição**: Atualiza os dados de um jogador existente.
+- **Parâmetros**: 
+  - `id` (path): ID do jogador.
+- **Corpo da Requisição**: JSON contendo os dados atualizados do jogador.
+- **Resposta**: Retorna o jogador atualizado ou uma mensagem de erro caso não seja encontrado.
 
-#### Obter Ranking dos Jogadores
+#### `DELETE /jogadores/{id}`
 
-- **Método:** `GET`
-- **Endpoint:** `/jogadores/ranking`
-- **Descrição:** Obtém o ranking dos jogadores com base em suas estatísticas.
-- **Resposta:**
-  - **Código 200:** Ranking dos jogadores.
-  - **Corpo da Resposta (JSON):**
-    ```json
-    [
-      {
-        "id": 1,
-        "apelido": "Messi",
-        "gols": 25,
-        "assistencias": 10
-      },
-      ...
-    ]
-    ```
+- **Descrição**: Deleta um jogador com base no ID.
+- **Parâmetros**: 
+  - `id` (path): ID do jogador.
+- **Resposta**: Retorna uma resposta de sucesso ou uma mensagem de erro caso não seja encontrado.
 
-#### Listar Jogadores por Gols Decrescentes em PDF
+### Consultas PDF
 
-- **Método:** `GET`
-- **Endpoint:** `/jogadores/gols/desc/pdf`
-- **Descrição:** Gera um PDF com a lista de jogadores ordenada por gols de forma decrescente.
-- **Resposta:**
-  - **Código 200:** PDF gerado com sucesso.
-  - **Corpo da Resposta:** Arquivo PDF.
+#### `GET /jogadores/gols/desc/pdf`
 
-#### Listar Jogadores por Assistências Decrescentes em PDF
+- **Descrição**: Gera um relatório em PDF listando os jogadores ordenados por número de gols em ordem decrescente.
+- **Resposta**: Retorna um PDF gerado com sucesso.
 
-- **Método:** `GET`
-- **Endpoint:** `/jogadores/assistencias/desc/pdf`
-- **Descrição:** Gera um PDF com a lista de jogadores ordenada por assistências de forma decrescente.
-- **Resposta:**
-  - **Código 200:** PDF gerado com sucesso.
-  - **Corpo da Resposta:** Arquivo PDF.
+#### `GET /jogadores/assistencias/desc/pdf`
+
+- **Descrição**: Gera um relatório em PDF listando os jogadores ordenados por número de assistências em ordem decrescente.
+- **Resposta**: Retorna um PDF gerado com sucesso.
 
 ### Times
 
-#### Adicionar um Novo Time
+#### `POST /times`
 
-- **Método:** `POST`
-- **Endpoint:** `/times`
-- **Descrição:** Adiciona um novo time à base de dados.
-- **Parâmetros:**
-  - **Corpo da Requisição (JSON):**
-    ```json
-    {
-      "nome": "Barcelona",
-      "jogadores": [
-        {
-          "id": 1,
-          "nome": "Lionel Messi"
-        }
-      ]
-    }
-    ```
-- **Resposta:**
-  - **Código 200:** Time adicionado com sucesso.
-  - **Corpo da Resposta (JSON):**
-    ```json
-    {
-      "id": 1,
-      "nome": "Barcelona",
-      "jogadores": [
-        {
-          "id": 1,
-          "nome": "Lionel Messi"
-        }
-      ]
-    }
-    ```
+- **Descrição**: Adiciona um novo time.
+- **Corpo da Requisição**: JSON contendo os dados do time.
+- **Resposta**: Retorna o time criado.
 
-#### Listar Todos os Times
+#### `GET /times`
 
-- **Método:** `GET`
-- **Endpoint:** `/times`
-- **Descrição:** Lista todos os times.
-- **Resposta:**
-  - **Código 200:** Lista de times.
-  - **Corpo da Resposta (JSON):**
-    ```json
-    [
-      {
-        "id": 1,
-        "nome": "Barcelona",
-        "jogadores": [
-          {
-            "id": 1,
-            "nome": "Lionel Messi"
-          }
-        ]
-      },
-      ...
-    ]
-    ```
+- **Descrição**: Lista todos os times cadastrados.
+- **Resposta**: Retorna um array de times.
+
+## Licença
+
+O Pelada App está licenciado sob a Licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+## Conclusão
+
+O Pelada App oferece uma solução completa para a gestão de jogadores e times de futebol, com funcionalidades robustas e uma documentação clara através do Swagger. A utilização de tecnologias modernas garante uma aplicação escalável e fácil de manter. 
+
+---
+
+**Repositório GitHub**: [Pelada App](https://github.com/LucasCAlecrim/Pelada-app-final)
 
 
 
-# Teste para alimentar o banco (TESTE)
-
-## Exemplo a ser descrito
-<img src="./img/teste.png" alt="arquivo teste" width="200" height="350"/>
-
-
-src/teste/Teste.ts
-## Exemplo ao executar o script
-<img src="./img/exemplo_tabela.png" alt="Exemplo de Query" width="600" height="450"/>
-
-
-### Este script irá:
-- Cria 3 times e 20 jogadores com dados fictícios.
-- Executar uma série de consultas SQL para filtrar e exibir informações sobre os jogadores e os times.
-- Imprimir os resultados no console para análise.
-
-### As consultas incluídas são:
-- Jogadores que estão no mesmo time.
-- Jogadores com mais de 5 gols e menos de 5 gols.
-- Jogadores ordenados por assistências (crescente e decrescente).
-- Jogadores com mais gols e assistências.
-- Jogadores de um time específico.
-- Jogadores com o maior e menor número de vitórias.
-- Jogadores com mais assistências e menos vitórias.
-
-
-
-## São essas as consultas SQL
-
-Aqui estão algumas consultas SQL úteis para consultar e analisar dados dos jogadores e times no banco de dados.
-
-### 1. Jogadores que estão no mesmo time
-```sql
-SELECT j1.nome AS jogador1, j2.nome AS jogador2, t.nome AS time
-FROM Jogador j1
-JOIN Jogador j2 ON j1.timeId = j2.timeId
-JOIN Time t ON j1.timeId = t.id
-WHERE j1.id < j2.id;
-```
-### 2. Jogadores com mais de 5 gols
-```sql
-Copiar código
-SELECT nome, apelido, gols, assistencias, vitorias, timeId
-FROM Jogador
-WHERE gols > 5;
-```
-### 3. Jogadores com menos de 5 gols
-```sql
-Copiar código
-SELECT nome, apelido, gols, assistencias, vitorias, timeId
-FROM Jogador
-WHERE gols < 5;
-```
-### 4. Jogadores ordenados por assistências em ordem decrescente
-```sql
-Copiar código
-SELECT nome, apelido, assistencias
-FROM Jogador
-ORDER BY assistencias DESC;
-```
-### 5. Jogadores ordenados por assistências em ordem crescente
-```sql
-Copiar código
-SELECT nome, apelido, assistencias
-FROM Jogador
-ORDER BY assistencias ASC;
-```
-### 6. Jogadores com mais gols e mais assistências
-```sql
-Copiar código
-SELECT nome, apelido, gols, assistencias
-FROM Jogador
-ORDER BY gols DESC, assistencias DESC;
-### 7. Jogadores de um time específico
-Substitua 'Time A' pelo nome do time desejado:
-```
-```sql
-Copiar código
-SELECT j.nome, j.apelido, j.gols, j.assistencias
-FROM Jogador j
-JOIN Time t ON j.timeId = t.id
-WHERE t.nome = 'Time A';
-```
-### 8. Jogadores com o maior número de vitórias
-```sql
-Copiar código
-SELECT nome, apelido, vitorias
-FROM Jogador
-ORDER BY vitorias DESC;
-```
-### 9. Jogadores com o menor número de vitórias
-```sql
-Copiar código
-SELECT nome, apelido, vitorias
-FROM Jogador
-ORDER BY vitorias ASC;
-```
-### 10. Jogadores com mais assistências e menos vitórias
-```sql
-Copiar código
-SELECT nome, apelido, assistencias, vitorias
-FROM Jogador
-ORDER BY assistencias DESC, vitorias ASC;
-```
