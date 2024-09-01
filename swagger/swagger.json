@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "Futebol App API",
+    "title": "Pelada APP",
     "description": "API para gerenciamento de jogadores e times de futebol"
   },
   "host": "localhost:3000",
@@ -10,9 +10,24 @@
   "schemes": [
     "http"
   ],
+  "tags": [
+    {
+      "name": "Jogadores",
+      "description": "Operações relacionadas a jogadores"
+    },
+    {
+      "name": "Consultas PDF",
+      "description": "Operações relacionadas a consultas dos jogadores"
+    },
+    {
+      "name": "Times",
+      "description": "Operações relacionadas a times"
+    }
+  ],
   "paths": {
     "/jogadores": {
       "post": {
+        "tags": ["Jogadores"],
         "summary": "Adicionar um novo jogador",
         "consumes": [
           "application/json"
@@ -22,6 +37,7 @@
             "in": "body",
             "name": "Jogador",
             "description": "Dados do jogador",
+            "required": true,
             "schema": {
               "$ref": "#/definitions/Jogador"
             }
@@ -37,6 +53,7 @@
         }
       },
       "get": {
+        "tags": ["Jogadores"],
         "summary": "Listar todos os jogadores",
         "responses": {
           "200": {
@@ -53,11 +70,13 @@
     },
     "/jogadores/{id}": {
       "get": {
+        "tags": ["Jogadores"],
         "summary": "Obter um jogador específico",
         "parameters": [
           {
             "name": "id",
             "in": "path",
+            "description": "ID do jogador",
             "required": true,
             "type": "integer"
           }
@@ -74,12 +93,50 @@
           }
         }
       },
+      "put": {
+        "tags": ["Jogadores"],
+        "summary": "Atualizar um jogador existente",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do jogador",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "Jogador",
+            "description": "Dados atualizados do jogador",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Jogador"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Jogador atualizado com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Jogador"
+            }
+          },
+          "404": {
+            "description": "Jogador não encontrado"
+          }
+        }
+      },
       "delete": {
+        "tags": ["Jogadores"],
         "summary": "Deletar um jogador",
         "parameters": [
           {
             "name": "id",
             "in": "path",
+            "description": "ID do jogador",
             "required": true,
             "type": "integer"
           }
@@ -93,6 +150,7 @@
     },
     "/times": {
       "post": {
+        "tags": ["Times"],
         "summary": "Adicionar um novo time",
         "consumes": [
           "application/json"
@@ -102,6 +160,7 @@
             "in": "body",
             "name": "Time",
             "description": "Dados do time",
+            "required": true,
             "schema": {
               "$ref": "#/definitions/Time"
             }
@@ -117,6 +176,7 @@
         }
       },
       "get": {
+        "tags": ["Times"],
         "summary": "Listar todos os times",
         "responses": {
           "200": {
@@ -131,8 +191,10 @@
         }
       }
     },
+    
     "/jogadores/gols/desc/pdf": {
       "get": {
+        "tags": ["Consultas PDF"],
         "summary": "Listar jogadores por gols de forma decrescente em PDF",
         "responses": {
           "200": {
@@ -145,8 +207,47 @@
         }
       }
     },
+    "/times/{id}": {
+  "put": {
+    "tags": ["Times"],
+    "summary": "Atualizar um time existente",
+    "consumes": [
+      "application/json"
+    ],
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "description": "ID do time",
+        "required": true,
+        "type": "integer"
+      },
+      {
+        "in": "body",
+        "name": "Time",
+        "description": "Dados atualizados do time",
+        "required": true,
+        "schema": {
+          "$ref": "#/definitions/Time"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Time atualizado com sucesso",
+        "schema": {
+          "$ref": "#/definitions/Time"
+        }
+      },
+      "404": {
+        "description": "Time não encontrado"
+      }
+    }
+  }
+},
     "/jogadores/assistencias/desc/pdf": {
       "get": {
+        "tags": ["Consultas PDF"],
         "summary": "Listar jogadores por assistências de forma decrescente em PDF",
         "responses": {
           "200": {
