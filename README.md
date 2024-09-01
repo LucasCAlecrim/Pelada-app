@@ -1,6 +1,15 @@
 # Pelada App
 
-**Pelada App** é uma aplicação desenvolvida para gerenciar jogadores de futebol. Com funcionalidades completas de CRUD, geração de relatórios em PDF, e integração com Swagger para documentação interativa da API, o Pelada App é uma solução robusta para a gestão de equipes e jogadores. A aplicação é construída com TypeScript, Node.js, Express, e TypeORM, proporcionando uma arquitetura escalável e de fácil manutenção.
+![GitHub repo size](https://img.shields.io/github/repo-size/LucasCAlecrim/Pelada-app-final?style=for-the-badge)
+![GitHub language count](https://img.shields.io/github/languages/count/LucasCAlecrim/Pelada-app-final?style=for-the-badge)
+![GitHub forks](https://img.shields.io/github/forks/LucasCAlecrim/Pelada-app-final?style=for-the-badge)
+![Bitbucket open issues](https://img.shields.io/bitbucket/issues/LucasCAlecrim/Pelada-app-final?style=for-the-badge)
+![Bitbucket open pull requests](https://img.shields.io/bitbucket/pr-raw/LucasCAlecrim/Pelada-app-final?style=for-the-badge)
+
+
+**Pelada App** é uma aplicação desenvolvida para gerenciar jogadores de futebol. Com funcionalidades completas de CRUD, geração de relatórios em PDF, e integração com Swagger para documentação interativa da API, 
+
+A aplicação é construída com TypeScript, Node.js, Express, e TypeORM, proporcionando uma arquitetura escalável e de fácil manutenção.
 
 ## Tecnologias Utilizadas
 
@@ -13,6 +22,55 @@
 - **swagger-ui-express**: Middleware para integrar o Swagger com o Express.
 - **PDFKit**: Biblioteca para geração de documentos PDF diretamente do código.
 - **CORS**: Middleware para habilitar o compartilhamento de recursos entre diferentes origens, essencial para APIs RESTful.
+
+### Principal funcionalidade
+<img src="./img/swagger.png" alt="Funcional" width="700" height="550"/>
+
+### Ajustes e melhorias
+
+O projeto ainda está em desenvolvimento e as próximas atualizações serão voltadas para as seguintes tarefas:
+
+- [x] Front-End 
+
+
+## 💻 Pré-requisitos
+
+- **Node.js** e **npm** instalados.
+- **MySQL** ativo e configurado.
+
+## 📫 Contribuindo para PeladaApp
+
+Para contribuir com <PeladaApp>, siga estas etapas:
+
+1. Bifurque este repositório.
+2. Crie um branch: `git checkout -b <nome_branch>`.
+3. Faça suas alterações e confirme-as: `git commit -m '<mensagem_commit>'`
+4. Envie para o branch original: `git push origin <nome_do_projeto> / <local>`
+5. Crie a solicitação de pull.
+
+Como alternativa, consulte a documentação do GitHub em [como criar uma solicitação pull](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request).
+
+## 🤝 Colaboradores
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="#" title="Lenda">
+        <img src="https://avatars.githubusercontent.com/u/115514137?s=400&u=94091bbc718350e8ba1d74d7488af75f303bcbb3&v=44" width="100px;" alt="Lucas C Alecrim"/><br>
+        <sub>
+          <b>Lucas C Alecrim</b>
+        </sub>
+      </a>
+    </td>
+</table>
+
+## 😄 Seja um dos contribuidores
+
+Quer fazer parte desse projeto? Clique [AQUI](CONTRIBUTING.md) e leia como contribuir.
+
+## 📝 Licença
+
+O Pelada App está licenciado sob a Licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 ## Funcionalidades Principais
 
@@ -34,11 +92,6 @@
 - **Adicionar Time**: `POST /times`
 - **Listar Times**: `GET /times`
 - **Atualizar Jogador**: `PUT /times/{id}`
-
-## Pré-requisitos
-
-- **Node.js** e **npm** instalados.
-- **MySQL** ativo e configurado.
 
 **Configuração correta do banco**
 - no meu caso optei por mysql no workbanch
@@ -237,10 +290,6 @@ A API está organizada em três principais grupos de operações:
 
 - **Descrição**: Lista todos os times cadastrados.
 - **Resposta**: Retorna um array de times.
-
-## Licença
-
-O Pelada App está licenciado sob a Licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 ## Conclusão
 
