@@ -11,4 +11,13 @@ export class TimeService {
     async findAll(): Promise<Time[]> {
         return await this.timeRepository.find({ relations: ['jogadores'] });
     }
+    async update(id: number, updatedTime: Time): Promise<Time | null> {
+        const time = await this.timeRepository.findOneBy({ id });
+        if (!time) {
+            return null;
+        }
+        this.timeRepository.merge(time, updatedTime);
+        return await this.timeRepository.save(time);
+    }
+    
 }

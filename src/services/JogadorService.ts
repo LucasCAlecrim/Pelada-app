@@ -21,6 +21,15 @@ export class JogadorService {
             posicao,
         }));
     }
+    async update(id: number, dadosAtualizados: Partial<Jogador>): Promise<Jogador | null> {
+        const jogador = await this.jogadorRepository.findOneBy({ id });
+        if (!jogador) {
+            return null;
+        }
+    
+        Object.assign(jogador, dadosAtualizados);
+        return await this.jogadorRepository.save(jogador);
+    }
 
 
     async findOne(id: number): Promise<Jogador | null> {

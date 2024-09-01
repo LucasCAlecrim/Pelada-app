@@ -19,6 +19,17 @@ export class JogadorController {
         const jogador = await jogadorService.findOne(Number(req.params.id));
         return jogador ? res.json(jogador) : res.status(404).json({ message: 'Jogador não encontrado' });
     }
+    async update(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const dadosAtualizados = req.body;
+    
+        const jogadorAtualizado = await jogadorService.update(Number(id), dadosAtualizados);
+        if (!jogadorAtualizado) {
+            return res.status(404).json({ message: 'Jogador não encontrado' });
+        }
+    
+        return res.json(jogadorAtualizado);
+    }
 
     async delete(req: Request, res: Response): Promise<Response> {
         await jogadorService.delete(Number(req.params.id));

@@ -7,6 +7,7 @@ const jogadorController = new JogadorController();
 router.post('/jogadores', jogadorController.create);
 router.get('/jogadores', jogadorController.findAll);
 router.get('/jogadores/:id', jogadorController.findOne);
+router.put('/jogadores/:id', jogadorController.update);
 router.delete('/jogadores/:id', jogadorController.delete);
 
 
